@@ -1,6 +1,17 @@
 'use strict'
 
 var videoplay = document.getElementById("player");
+var audioplayer = document.getElementById("audioplayer");
+
+var audioSource = document.querySelector("select#audioSource")
+var audioOutput = document.querySelector("select#audioOutput")
+var videoSource = document.querySelector("select#videoSource")
+var filter = document.querySelector("select#filter")
+
+var snapshot = document.getElementById("snapshot");
+var picture = document.getElementById("picture");
+picture.width = 320;
+picture.height = 240;
 
 function gotMediaStream(stream) {
   videoplay.srcObject = stream;
@@ -57,7 +68,13 @@ function start() {
 start();
 
 videoSource.onchange = start;
+filter.onchange = function() {
+  videoplay.className = filter.value;
+}
 
+snapshot.onclick = function() {
+  picture.getContext('2d').drawImage(videoplay, 0, 0, picture.width, picture.height);
+}
 // video constrain
 // height 视频高
 // width  视频宽
