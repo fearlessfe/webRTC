@@ -14,7 +14,8 @@ picture.width = 320;
 picture.height = 240;
 
 function gotMediaStream(stream) {
-  videoplay.srcObject = stream;
+  // videoplay.srcObject = stream;
+  audioplayer.srcObject = stream;
   return navigator.mediaDevices.enumerateDevices();
 }
 
@@ -44,19 +45,21 @@ function start() {
   } else {
     var deviceId = videoSource.value;
     var constraints = {
-      video: {
-        width: 640,
-        height: 480,
-        frameRate: {
-          min: 20,
-          max: 30
-        },
-        devicdId : deviceId || undefined
-      },
-      audio: {
-        echoCancellation: true,
-        noiseSuppression: true
-      },
+      // video: {
+      //   width: 640,
+      //   height: 480,
+      //   frameRate: {
+      //     min: 20,
+      //     max: 30
+      //   },
+      //   devicdId : deviceId || undefined
+      // },
+      // audio: {
+      //   echoCancellation: true,
+      //   noiseSuppression: true
+      // },
+      audio: true,
+      video: false
     }
     navigator.mediaDevices.getUserMedia(constraints)
       .then(gotMediaStream)
