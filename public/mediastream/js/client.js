@@ -13,9 +13,15 @@ var picture = document.getElementById("picture");
 picture.width = 320;
 picture.height = 240;
 
+var constraints = document.getElementById("constraints");
+
 function gotMediaStream(stream) {
-  // videoplay.srcObject = stream;
-  audioplayer.srcObject = stream;
+  videoplay.srcObject = stream;
+  var videoTrack = stream.getVideoTracks()[0];
+  console.log(videoTrack)
+  var videoConstraints = videoTrack.getSettings();
+  constraints.textContent = JSON.stringify(videoConstraints, null, 2);
+  // audioplayer.srcObject = stream;
   return navigator.mediaDevices.enumerateDevices();
 }
 
@@ -45,21 +51,21 @@ function start() {
   } else {
     var deviceId = videoSource.value;
     var constraints = {
-      // video: {
-      //   width: 640,
-      //   height: 480,
-      //   frameRate: {
-      //     min: 20,
-      //     max: 30
-      //   },
-      //   devicdId : deviceId || undefined
-      // },
-      // audio: {
-      //   echoCancellation: true,
-      //   noiseSuppression: true
-      // },
-      audio: true,
-      video: false
+      video: {
+        width: 640,
+        height: 480,
+        frameRate: {
+          min: 20,
+          max: 30
+        },
+        devicdId : deviceId || undefined
+      },
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true
+      }
+      // audio: true,
+      // video: false
     }
     navigator.mediaDevices.getUserMedia(constraints)
       .then(gotMediaStream)
