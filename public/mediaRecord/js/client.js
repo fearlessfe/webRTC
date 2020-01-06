@@ -63,7 +63,11 @@ function start() {
         noiseSuppression: true
       }
     }
-    navigator.mediaDevices.getUserMedia(constraints)
+    navigator.mediaDevices.getDisplayMedia({
+      video: true,
+      audio: true
+    })
+    // navigator.mediaDevices.getUserMedia(constraints)
       .then(gotMediaStream)
       .then(gotDevices)
       .catch(hanleErroe)
