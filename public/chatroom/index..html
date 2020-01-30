@@ -5,27 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>chatroom</title>
+  <style>
+    .container {
+      width: 800px;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="username">
-      username: <input />
+      username: <input type="text" id="username" />
     </div>
     <div>
-      room: <input type="text"> <button id="connect">connect</button>
+      room: <input type="text" id="room"> <button id="connect">connect</button>
     </div>
     <div>
-      Content:
+      <div>Content:</div>
       <textarea name="message" id="output" disabled cols="30" rows="10"></textarea>
 
     </div>
     <div>
+      <div>Input:</div>
       <textarea name="message" id="input" cols="30" rows="10"></textarea>
     </div>
     <div>
       <button id="send">send</button>
     </div>
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script src="./js/client.js"></script>
 </body>
 </html>

@@ -66,7 +66,7 @@ io.sockets.on('connection', (socket)=> {
     socket.leave(room);
     logger.log('the number of user in room is:' + (users - 1))
 
-    socket.broadcast.emit('joined', room, socket.id);
+    socket.broadcast.emit('leaved', room, socket.id);
   })
 })
 
