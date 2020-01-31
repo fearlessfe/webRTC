@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>peer connection</title>
+</head>
+<body>
+  <div>
+    <video id="localvideo" autoplay playsinline></video>
+    <video id="remotevideo" autoplay playsinline></video>
+    <div>
+      <!-- 采集本地音视频 -->
+      <button id="start">start</button>
+      <!-- 每天协商 candidate收集 -->
+      <button id="call">call</button>
+      <button id="hangup">hangup</button>
+    </div>
+  </div>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="./js/client.js"></script>
+</body>
+</html>
