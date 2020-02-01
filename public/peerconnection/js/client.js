@@ -5,6 +5,9 @@ var btnStart = document.querySelector("button#start")
 var btnCall = document.querySelector("button#call")
 var btnHangup = document.querySelector("button#hangup")
 
+var offerText = document.querySelector("textarea#offer")
+var answerText = document.querySelector("textarea#answer")
+
 var localStream;
 var pc1;
 var pc2;
@@ -46,7 +49,7 @@ function getRemoteStream(e) {
 
 function getOffer(desc) {
   pc1.setLocalDescription(desc);
-
+  offerText.value = desc.sdp;
   // send desc to signal
   // pc2 receive desc from singal
 
@@ -59,7 +62,7 @@ function getOffer(desc) {
 
 function getAnswer(desc) {
   pc2.setLocalDescription(desc);
-
+  answerText.value = desc.sdp;
   // send desc to signal
   // pc1 receive desc from singal
   pc1.setRemoteDescription(desc);

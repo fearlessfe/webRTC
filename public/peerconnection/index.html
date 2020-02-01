@@ -5,20 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>peer connection</title>
+  <style>
+    .wrapper {
+      display: flex;
+    }
+  </style>
 </head>
 <body>
   <div>
-    <video id="localvideo" autoplay playsinline></video>
-    <video id="remotevideo" autoplay playsinline></video>
+    <!-- 采集本地音视频 -->
+    <button id="start">start</button>
+    <!-- 每天协商 candidate收集 -->
+    <button id="call">call</button>
+    <button id="hangup">hangup</button>
+  </div>
+  <div class="wrapper">
     <div>
-      <!-- 采集本地音视频 -->
-      <button id="start">start</button>
-      <!-- 每天协商 candidate收集 -->
-      <button id="call">call</button>
-      <button id="hangup">hangup</button>
+      <h2>Local</h2>
+      <video id="localvideo" autoplay playsinline></video>
+      <h2>Offer SDP</h2>
+      <textarea id="offer" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <h2>Remote</h2>
+      <video id="remotevideo" autoplay playsinline></video>
+      <h2>Answer SDP</h2>
+      <textarea id="answer" cols="30" rows="10"></textarea>
     </div>
   </div>
-  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  
+  <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
+  <script src="./js/adapter.js"></script>
   <script src="./js/client.js"></script>
 </body>
 </html>
