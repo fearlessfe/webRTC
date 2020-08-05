@@ -40,17 +40,18 @@ const http_server = http.createServer(app);
 http_server.listen(3000, '0.0.0.0');
 
 const options = {
-  key:  fs.readFileSync(path.join(__dirname,'./cert/2890117_qiuqiu.site.key')),
-  cert:  fs.readFileSync(path.join(__dirname,'./cert/2890117_qiuqiu.site.pem'))
+  key: fs.readFileSync(path.join(__dirname, './cert/2890117_qiuqiu.site.key')),
+  cert: fs.readFileSync(path.join(__dirname, './cert/2890117_qiuqiu.site.pem'))
 }
 const https_server = https.createServer(options, app);
 const io = socketIo.listen(https_server);
 
-io.sockets.on('connection', (socket)=> {
+io.sockets.on('connection', (socket) => {
   socket.on('join', (room) => {
     socket.join(room);
     const myRoom = io.sockets.adapter.rooms[room];
     var users = Object.keys(myRoom.sockets).length;
+    console.log(users);
     logger.log('the number of user in room is:' + users)
     // socket.emit('joined', room, socket.id);
     // socket.to(room).emit('joined', room, socket.id);
@@ -67,6 +68,10 @@ io.sockets.on('connection', (socket)=> {
     logger.log('the number of user in room is:' + (users - 1))
 
     socket.broadcast.emit('leaved', room, socket.id);
+  })
+  socket.on('message', (room, data) => {
+    console.log(data)
+    io.in(room).emit('message', room, data)
   })
 })
 

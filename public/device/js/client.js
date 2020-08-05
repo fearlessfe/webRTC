@@ -2,7 +2,7 @@ var audioSource = document.querySelector("select#audioSource")
 var audioOutput = document.querySelector("select#audioOutput")
 var videoSource = document.querySelector("select#videoSource")
 
-if(!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
   console.log('enumerateDevices is not supports')
 } else {
   navigator.mediaDevices.enumerateDevices()
@@ -11,16 +11,17 @@ if(!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
 }
 
 function getDevices(deviceInfos) {
+  console.log(deviceInfos)
   deviceInfos.forEach(deviceInfo => {
     console.log(`${deviceInfo.kind}: label=${deviceInfo.label}: id=${deviceInfo.deviceId}: groupId=${deviceInfo.groupId}`);
     var option = document.createElement('option');
     option.text = deviceInfo.label;
     option.value = deviceInfo.deviceId;
-    if(deviceInfo.kind === 'audioinput') {
-      audioSource.appendChild(option); 
-    } else if(deviceInfo.kind === 'audiooutput') {
+    if (deviceInfo.kind === 'audioinput') {
+      audioSource.appendChild(option);
+    } else if (deviceInfo.kind === 'audiooutput') {
       audioOutput.appendChild(option)
-    } else if(deviceInfo.kind === 'videoinput') {
+    } else if (deviceInfo.kind === 'videoinput') {
       videoSource.appendChild(option);
     }
   })

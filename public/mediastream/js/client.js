@@ -18,7 +18,8 @@ var constraints = document.getElementById("constraints");
 function gotMediaStream(stream) {
   videoplay.srcObject = stream;
   var videoTrack = stream.getVideoTracks()[0];
-  console.log(videoTrack)
+  console.log(stream.getVideoTracks())
+  console.log(stream.getAudioTracks())
   var videoConstraints = videoTrack.getSettings();
   constraints.textContent = JSON.stringify(videoConstraints, null, 2);
   // audioplayer.srcObject = stream;
@@ -31,11 +32,11 @@ function gotDevices(deviceInfos) {
     var option = document.createElement('option');
     option.text = deviceInfo.label;
     option.value = deviceInfo.deviceId;
-    if(deviceInfo.kind === 'audioinput') {
-      audioSource.appendChild(option); 
-    } else if(deviceInfo.kind === 'audiooutput') {
+    if (deviceInfo.kind === 'audioinput') {
+      audioSource.appendChild(option);
+    } else if (deviceInfo.kind === 'audiooutput') {
       audioOutput.appendChild(option)
-    } else if(deviceInfo.kind === 'videoinput') {
+    } else if (deviceInfo.kind === 'videoinput') {
       videoSource.appendChild(option);
     }
   })
@@ -46,7 +47,7 @@ function hanleErroe(err) {
 }
 
 function start() {
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     console.log('getUserMedia is not supported!')
   } else {
     var deviceId = videoSource.value;
@@ -58,7 +59,7 @@ function start() {
           min: 20,
           max: 30
         },
-        devicdId : deviceId || undefined
+        devicdId: deviceId || undefined
       },
       audio: {
         echoCancellation: true,
@@ -77,11 +78,11 @@ function start() {
 start();
 
 videoSource.onchange = start;
-filter.onchange = function() {
+filter.onchange = function () {
   videoplay.className = filter.value;
 }
 
-snapshot.onclick = function() {
+snapshot.onclick = function () {
   picture.getContext('2d').drawImage(videoplay, 0, 0, picture.width, picture.height);
 }
 // video constrain

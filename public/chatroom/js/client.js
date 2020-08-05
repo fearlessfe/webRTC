@@ -19,21 +19,25 @@ btnConnect.onclick = () => {
     btnConnect.disabled = true;
     inputArea.disabled = false;
     btnSend.disabled = false;
+    console.log(`joined${room}+${id}`)
   })
 
   socket.on('leaved', (room, id) => {
     btnConnect.disabled = false;
     inputArea.disabled = true;
     btnSend.disabled = true;
+    console.log(`leaved${room}+${id}`)
   })
 
-  socket.on('message', (room, id, data) => {
+  socket.on('message', (room, data) => {
+    console.log(room)
+    console.log(data)
     outputArea.value += data + '\r'
   })
 
   // send message
 
-  
+  room = inputRoom.value
   socket.emit('join', room);
 }
 
