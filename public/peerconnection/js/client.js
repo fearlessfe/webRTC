@@ -8,8 +8,8 @@ var btnHangup = document.querySelector("button#hangup")
 var offerText = document.querySelector("textarea#offer")
 var answerText = document.querySelector("textarea#answer")
 
-var localStream;
-var pc1;
+var localStream;  // 添加流时使用
+var pc1;  // 发起端
 var pc2;
 
 function getMediaStream(stream) {
@@ -30,7 +30,7 @@ function handleAnswerError(err) {
 }
 
 function start() {
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     console.error('the getUserMedia is not supported')
     return;
   }
@@ -72,6 +72,7 @@ function call() {
   pc1 = new RTCPeerConnection();
   pc2 = new RTCPeerConnection();
 
+  // pc1的candidate需要发送给对方
   pc1.onicecandidate = (e) => {
     pc2.addIceCandidate(e.candidate)
   }
@@ -80,11 +81,12 @@ function call() {
     pc1.addIceCandidate(e.candidate)
   }
 
-  pc2.ontrack = getRemoteStream;
-
+  // 将本地采集的流添加到pc1中
   localStream.getTracks().forEach(track => {
     pc1.addTrack(track, localStream)
   })
+
+  pc2.ontrack = getRemoteStream;
 
   var offerOptions = {
     offerToRecieveAudio: 0,
