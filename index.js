@@ -10,6 +10,8 @@ const socketIo = require('socket.io')
 
 const log4js = require('log4js')
 
+const USER_MAX_COUNT = 3;
+
 log4js.configure({
   appenders: {
     file: {
@@ -50,28 +52,38 @@ io.sockets.on('connection', (socket) => {
   socket.on('join', (room) => {
     socket.join(room);
     const myRoom = io.sockets.adapter.rooms[room];
-    var users = Object.keys(myRoom.sockets).length;
+    var users = myRoom ? Object.keys(myRoom.sockets).length : 0;
     console.log(users);
     logger.log('the number of user in room is:' + users)
+
+    if (users < USER_MAX_COUNT) {
+      socket.emit('joined', room, socket.id);
+
+      if (users > 1) {
+        socket.to(room).emit('otherjoin', room);
+      }
+    } else {
+      socket.leave(room);
+      socket.emit('full', room, socket.id)
+    }
     // socket.emit('joined', room, socket.id);
-    // socket.to(room).emit('joined', room, socket.id);
+
     // io.in(room).emit('joined', room, socket.id);  // 房间内所有人
-    socket.broadcast.emit('joined', room, socket.id);
+    // socket.broadcast.emit('joined', room, socket.id);
   })
   socket.on('leave', (room) => {
     const myRoom = io.sockets.adapter.rooms[room];
     var users = Object.keys(myRoom.sockets).length;
     // socket.emit('joined', room, socket.id);
-    // socket.to(room).emit('joined', room, socket.id);
+    socket.to(room).emit('bye', room, socket.id);
     // io.in(room).emit('joined', room, socket.id);  // 房间内所有人
-    socket.leave(room);
+    socket.emit('leaved', room, socket.id)
     logger.log('the number of user in room is:' + (users - 1))
 
-    socket.broadcast.emit('leaved', room, socket.id);
+    // socket.broadcast.emit('leaved', room, socket.id);
   })
   socket.on('message', (room, data) => {
-    console.log(data)
-    io.in(room).emit('message', room, data)
+    io.to(room).emit('message', room, data)
   })
 })
 
