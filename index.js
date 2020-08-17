@@ -57,9 +57,11 @@ io.sockets.on('connection', (socket) => {
     logger.log('the number of user in room is:' + users)
 
     if (users < USER_MAX_COUNT) {
+      // 向自己发送joined事件
       socket.emit('joined', room, socket.id);
 
       if (users > 1) {
+        // 向房间内的其它人发送 otherjoin 消息
         socket.to(room).emit('otherjoin', room);
       }
     } else {
